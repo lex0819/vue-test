@@ -21,9 +21,9 @@ function allPosts() {
 <template>
     <div>
         <h1 class="text-center text-teal-900 text-5xl mb-8">Welcome to Vue</h1>
-        <div class="grid gap-2 grid-cols-1 sm:grid-cols-2 justify-center">
+        <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-center">
             <AuthorsList v-model="activeAuthor" />
-            <div>
+            <div class="grow">
                 <p v-if="loading">Loading posts...</p>
                 <p v-if="error">{{ error.message }}</p>
                 <div v-if="posts">
@@ -47,11 +47,15 @@ function allPosts() {
                             <li
                                 v-for="post in getPostsPerAuthor(activeAuthor)"
                                 :key="post.id"
+                                class="mb-6 p-4 rounded-lg border border-teal-700 w-full"
                             >
-                                <RouterLink :to="`/post/${post.id}`">
+                                <RouterLink
+                                    :to="`/post/${post.id}`"
+                                    class="text-teal-700 text-xl hover:opacity-60 duration-500"
+                                >
                                     {{ post.title }}
                                 </RouterLink>
-                                <p>{{ post.body }}</p>
+                                <p class="line-clamp-1">{{ post.body }}</p>
                             </li>
                         </ul>
                     </div>
@@ -63,8 +67,15 @@ function allPosts() {
                             }}</span>
                         </p>
                         <ul>
-                            <li v-for="post in posts" :key="post.id">
-                                <RouterLink :to="`/post/${post.id}`">
+                            <li
+                                v-for="post in posts"
+                                :key="post.id"
+                                class="mb-6 px-4"
+                            >
+                                <RouterLink
+                                    :to="`/post/${post.id}`"
+                                    class="text-teal-700 text-xl hover:opacity-60 duration-500"
+                                >
                                     {{ post.title }}
                                 </RouterLink>
                             </li>
