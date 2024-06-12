@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePostStore } from "@/stores/post";
-import AuthorsList from "@/components/AuthorsList.vue";
+import AuthorsList from "@/components/authors/AuthorsList.vue";
 
 const { posts, loading, error, getTotalPosts } = storeToRefs(usePostStore());
 const { fetchPosts, getPostsPerAuthor, getTotalPostsPerAuthorId } =
@@ -19,9 +19,9 @@ function allPosts() {
 </script>
 
 <template>
-    <div>
+    <div class="py-6">
         <h1 class="text-center text-teal-900 text-5xl mb-8">Welcome to Vue</h1>
-        <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-center">
+        <div class="flex gap-5 flex-wrap sm:flex-nowrap justify-center">
             <AuthorsList v-model="activeAuthor" />
             <div class="grow">
                 <p v-if="loading">Loading posts...</p>
@@ -32,7 +32,7 @@ function allPosts() {
                     </h2>
                     <button
                         @click="allPosts"
-                        class="bg-teal-700 text-center py-2 px-4 text-white rounded-lg my-2 hover:bg-teal-600 duration-75 cursor-pointer mb-4"
+                        class="bg-teal-700 text-center py-2 px-4 text-white rounded-lg hover:bg-teal-600 duration-75 cursor-pointer mb-4"
                     >
                         Show all posts
                     </button>

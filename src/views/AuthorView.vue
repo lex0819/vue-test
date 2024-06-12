@@ -1,10 +1,10 @@
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia';
-import { useAuthorStore } from '@/stores/author';
-import { usePostStore } from '@/stores/post';
-import Author from '@/components/Author.vue';
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useAuthorStore } from "@/stores/author";
+import { usePostStore } from "@/stores/post";
+import Author from "@/components/authors/Author.vue";
 
 const route = useRoute();
 const { authors } = storeToRefs(useAuthorStore());
@@ -12,13 +12,14 @@ const { getPostsPerAuthor } = storeToRefs(usePostStore());
 const { fetchPosts } = usePostStore();
 const { fetchAuthors } = useAuthorStore();
 
-
 fetchPosts();
 fetchAuthors();
 const getAuthorByUserName = computed(() => {
-    return authors?.value.find(
-        (author) => author.username === route.params.username
-    ) || 1;
+    return (
+        authors?.value.find(
+            (author) => author.username === route.params.username
+        ) || 1
+    );
 });
 </script>
 
