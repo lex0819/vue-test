@@ -1,21 +1,37 @@
 <script setup>
-// import { reactive } from "vue";
+import { ref } from "vue";
+
+const props = defineProps(["postId", "newCom"]);
+
+const sendOk = ref(false);
+
+const comment = {};
 
 function submit(e) {
-    var form = document.getElementById("form-add");
-    var formData = new FormData(form);
+    const form = document.getElementById("form-add");
+    let formData = new FormData(form);
+    formData.append("postId", props.postId);
 
-    axios.post("/someUrl", formData).then(
-        (response) => {
-            // success callback
+    formData.forEach((value, key) => (comment[key] = value));
+
+    props.newCom(comment);
+
+    fetch("https://jsonplaceholder.typicode.com/comments", {
+        method: "POST",
+        body: JSON.stringify(comment),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
         },
-        (response) => {
-            // error callback
-        }
-    );
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json);
+            sendOk.value = true;
+            form.reset();
+            Object.keys(comment).forEach((key) => (comment[key] = null));
+        })
+        .catch((er) => console.log(er));
 }
-
-defineProps(["post"]);
 </script>
 <template>
     <div>
@@ -28,7 +44,6 @@ defineProps(["post"]);
             <h2 class="text-2xl my-4 first-letter:uppercase">
                 Add new comment
             </h2>
-
             <div>
                 <label
                     for="name"
@@ -94,5 +109,20 @@ defineProps(["post"]);
             </div>
             <button type="submit" class="btn">send</button>
         </form>
+        <div v-if="sendOk">
+            <dialog id="my_modal_2" class="modal" open>
+                <div class="modal-box">
+                    <h3 class="font-bold text-lg">
+                        Your comment was added successful!
+                    </h3>
+                    <p class="py-4">Click to close</p>
+                    <div class="modal-action">
+                        <button class="btn" @click="sendOk = false">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </dialog>
+        </div>
     </div>
 </template>
