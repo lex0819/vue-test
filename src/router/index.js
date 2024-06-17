@@ -1,41 +1,33 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-import PostsView from '@/views/PostsView.vue';
-import PostView from '@/views/PostView.vue';
-import AuthorView from '@/views/AuthorView.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "@/views/HomeView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path: '/',
-            name: 'home',
+            path: "/",
+            name: "home",
             component: HomeView,
         },
         {
-            path: '/posts',
-            name: 'posts',
-            component: () => import('@/views/PostsView.vue'),
+            path: "/post/:id",
+            name: "post",
+            component: () => import("@/views/PostView.vue"),
         },
         {
-            path: '/post/:id',
-            name: 'post',
-            component: PostView,
+            path: "/authors",
+            name: "authors",
+            component: () => import("@/views/AuthorsView.vue"),
         },
         {
-            path: '/authors',
-            name: 'authors',
-            component: () => import('@/views/AuthorsView.vue'),
+            path: "/author/:username",
+            name: "author",
+            component: () => import("@/views/AuthorView.vue"),
         },
         {
-            path: '/author/:username',
-            name: 'author',
-            component: AuthorView,
-        },
-        {
-            path: '/:pathMatch(.*)*',
-            name: 'notfound',
-            component: () => import('@/views/NotFound.vue'),
+            path: "/:pathMatch(.*)*",
+            name: "notfound",
+            component: () => import("@/views/NotFound.vue"),
         },
     ],
 });

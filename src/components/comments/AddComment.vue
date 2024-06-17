@@ -1,37 +1,30 @@
 <script setup>
 import { ref } from "vue";
+import { useCommentsStore } from "@/stores/CommentsStore";
 
-const props = defineProps(["postId", "newCom"]);
+const props = defineProps(["postId"]);
+
+const commentsStore = useCommentsStore();
 
 const sendOk = ref(false);
-
+// const comment = ref({});
 const comment = {};
 
-function submit(e) {
+const submit = async (e) => {
     const form = document.getElementById("form-add");
     let formData = new FormData(form);
     formData.append("postId", props.postId);
 
     formData.forEach((value, key) => (comment[key] = value));
 
-    props.newCom(comment);
+    commentsStore.setAddNewComment(comment);
 
-    fetch("https://jsonplaceholder.typicode.com/comments", {
-        method: "POST",
-        body: JSON.stringify(comment),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-        },
-    })
-        .then((response) => response.json())
-        .then((json) => {
-            console.log(json);
-            sendOk.value = true;
-            form.reset();
-            Object.keys(comment).forEach((key) => (comment[key] = null));
-        })
-        .catch((er) => console.log(er));
-}
+    sendOk.value = await commentsStore.sendNewComment(comment);
+
+    if (sendOk.value) {
+        form.reset();
+    }
+};
 </script>
 <template>
     <div>

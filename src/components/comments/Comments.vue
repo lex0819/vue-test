@@ -1,35 +1,24 @@
 <script setup>
-import { ref, computed } from "vue";
+// import { ref, computed } from "vue";
+import { useCommentsStore } from "@/stores/CommentsStore.js";
 import AddComment from "@/components/comments/AddComment.vue";
 
 const props = defineProps(["postId"]);
 
-const commentStore = ref([]);
+const commentsStore = useCommentsStore();
 
-async function fetchComments() {
-    commentStore.value = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${props.postId}/comments`
-    ).then((response) => response.json());
-}
-
-function addComment(comment) {
-    commentStore.value.push({ ...comment });
-}
-
-const countComments = computed(() => commentStore.value.length);
-
-fetchComments();
+await commentsStore.fetchCommentsPerPost(props.postId);
 </script>
 
 <template>
     <div>
-        <AddComment :postId="props.postId" :newCom="addComment" />
+        <AddComment :postId="props.postId" />
 
         <h2 class="text-2xl mt-4 first-letter:uppercase">
-            Comments: <span>{{ countComments }}</span>
+            Comments: <span>{{ commentsStore.comments.length }}</span>
         </h2>
         <div
-            v-for="comment in commentStore"
+            v-for="comment in commentsStore.comments"
             :key="comment.id"
             class="shadow-lg p-7 rounded-3xl my-4"
         >

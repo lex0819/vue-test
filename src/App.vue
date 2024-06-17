@@ -26,9 +26,6 @@ import { RouterLink, RouterView } from "vue-router";
                     <RouterLink to="/" class="text-lg hover:text-teal-300"
                         >Home</RouterLink
                     >
-                    <RouterLink to="/posts" class="text-lg hover:text-teal-300"
-                        >Posts</RouterLink
-                    >
                     <RouterLink
                         to="/authors"
                         class="text-lg hover:text-teal-300"
