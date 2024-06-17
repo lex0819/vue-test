@@ -20,7 +20,7 @@ const router = createRouter({
             component: () => import("@/views/AuthorsView.vue"),
         },
         {
-            path: "/author/:username",
+            path: "/author/:id",
             name: "author",
             component: () => import("@/views/AuthorView.vue"),
         },

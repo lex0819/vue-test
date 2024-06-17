@@ -26,7 +26,9 @@ watch(activeAuthor, () => {
                 <div v-if="postsStore.loader">
                     <span class="loading loading-spinner loading-md"></span>
                 </div>
-                <div v-if="postsStore.error">{{ error.message }}</div>
+                <div v-if="postsStore.error">
+                    {{ postsStore.error.message }}
+                </div>
                 <div v-if="postsStore.posts">
                     <h2 class="text-center text-teal-700 text-3xl mb-6">
                         Posts List

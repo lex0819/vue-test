@@ -11,8 +11,8 @@ export const useAuthorsStore = defineStore("authorsStore", () => {
     const authors = ref([]);
 
     const fetchAuthors = async () => {
+        loader.value = true;
         try {
-            loader.value = true;
             const response = await axios.get(`${apiUrl}`);
             const data = await response.data;
             authors.value = data;
